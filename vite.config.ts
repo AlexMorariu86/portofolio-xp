@@ -4,7 +4,7 @@ import path from "path"
 
 export default defineConfig({
   plugins: [react()],
-  base: '/portofolio-xp/',
+  base: 'https://alexmorariu86.github.io/',
   build: {
     sourcemap: false, // Disable source maps in production
     rollupOptions: {
