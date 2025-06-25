@@ -1,4 +1,3 @@
-
 interface DesktopIconProps {
   imageSrc: string;
   label: string;
@@ -6,6 +5,7 @@ interface DesktopIconProps {
   imageAlt?: string;
   isSelected?: boolean;
 }
+
 const DesktopIcon: React.FC<DesktopIconProps> = ({ 
   imageSrc, 
   label, 
@@ -15,8 +15,12 @@ const DesktopIcon: React.FC<DesktopIconProps> = ({
 }) => {
   return (
     <div 
-      onClick={onClick}
-      className="flex flex-col items-center justify-center w-20 h-20 cursor-pointer group hover:bg-blue-200 hover:bg-opacity-50 rounded p-2 transition-colors"
+      onDoubleClick={onClick}
+      className={`flex flex-col items-center justify-center w-20 h-20 cursor-pointer group rounded p-2 transition-colors ${
+        isSelected 
+          ? 'bg-blue-500 bg-opacity-50' 
+          : 'hover:bg-blue-200 hover:bg-opacity-50'
+      }`}
     >
       <div>
         <img 
@@ -25,7 +29,9 @@ const DesktopIcon: React.FC<DesktopIconProps> = ({
           className="w-8 h-8 object-contain"
         />
       </div>
-      <span className="text-white text-xs text-center font-bold text-shadow-lg leading-tight">
+      <span className={`text-xs text-center font-bold leading-tight ${
+        isSelected ? 'text-white' : 'text-white text-shadow-lg'
+      }`}>
         {label}
       </span>
     </div>
