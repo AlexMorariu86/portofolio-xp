@@ -8,7 +8,7 @@ export default defineConfig(({ mode }) => ({
   server: {
     host: "::",
     port: 8080,
-  },
+    base: 'portofolio-xp',  },
   plugins: [
     react(),
     mode === 'development' &&
