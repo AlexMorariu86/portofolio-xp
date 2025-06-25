@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { 
@@ -75,16 +74,21 @@ const Taskbar = () => {
       )}
 
       {/* Taskbar */}
-      <div className="fixed bottom-0 left-0 right-0 h-10 bg-gradient-to-b from-blue-400 to-blue-600 border-t-2 border-blue-300 flex items-center justify-between px-2 z-40">
+      <div className="fixed bottom-0 left-0 right-0 h-10 bg-gradient-to-b from-blue-400 to-blue-600 border-t-2 border-blue-300 flex items-center justify-between pr-2 z-40">
         {/* Start Button */}
         <Button
           onClick={() => setShowStartMenu(!showStartMenu)}
-          className="h-8 px-3 bg-gradient-to-b from-green-400 to-green-600 hover:from-green-500 hover:to-green-700 border-2 border-green-300 rounded text-white font-bold shadow-md"
+          className="h-full px-3 bg-gradient-to-b from-green-400 to-green-600 hover:from-green-500 hover:to-green-700 border-2 border-green-300 rounded text-white font-bold shadow-md flex items-center space-x-2"
         >
-          start
+          <img 
+            src="/images/windows-logo.png" 
+            alt="Windows XP" 
+            className="w-5 h-5"
+          />
+          <span>start</span>
         </Button>
 
-        {/* Quick Launch */}
+        {/* Quick Launch
         <div className="flex items-center space-x-1 ml-2">
           <div className="w-6 h-6 bg-blue-800 rounded border border-blue-900 flex items-center justify-center">
             <Search className="w-4 h-4 text-white" />
@@ -92,7 +96,7 @@ const Taskbar = () => {
           <div className="w-6 h-6 bg-blue-800 rounded border border-blue-900 flex items-center justify-center">
             <FileText className="w-4 h-4 text-white" />
           </div>
-        </div>
+        </div> */}
 
         {/* System Tray */}
         <div className="flex items-center space-x-2">
