@@ -4,13 +4,14 @@ interface DesktopIconProps {
   label: string;
   onClick?: () => void;
   imageAlt?: string;
+  isSelected?: boolean;
 }
-
 const DesktopIcon: React.FC<DesktopIconProps> = ({ 
   imageSrc, 
   label, 
   onClick,
-  imageAlt = label
+  imageAlt = label,
+  isSelected = false
 }) => {
   return (
     <div 

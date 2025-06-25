@@ -1,4 +1,3 @@
-
 import React, { useState, useRef } from 'react';
 import { X, Minus, Square } from 'lucide-react';
 
@@ -6,6 +5,8 @@ interface WindowProps {
   title: string;
   children: React.ReactNode;
   onClose: () => void;
+  onFocus?: () => void;
+  isActive?: boolean;
   width?: string;
   height?: string;
 }
@@ -14,6 +15,8 @@ const Window: React.FC<WindowProps> = ({
   title, 
   children, 
   onClose, 
+  onFocus,
+  isActive = false,
   width = "w-96", 
   height = "h-64" 
 }) => {
@@ -24,6 +27,7 @@ const Window: React.FC<WindowProps> = ({
   const windowRef = useRef<HTMLDivElement>(null);
 
   const handleMouseDown = (e: React.MouseEvent) => {
+    onFocus?.();
     if (isMaximized) return;
     
     const rect = windowRef.current?.getBoundingClientRect();
@@ -34,6 +38,10 @@ const Window: React.FC<WindowProps> = ({
       });
       setIsDragging(true);
     }
+  };
+
+  const handleWindowClick = () => {
+    onFocus?.();
   };
 
   const handleMouseMove = (e: MouseEvent) => {
@@ -61,15 +69,18 @@ const Window: React.FC<WindowProps> = ({
     }
   }, [isDragging, dragOffset]);
 
+  const zIndex = isActive ? 'z-40' : 'z-30';
+
   return (
     <div 
       ref={windowRef}
-      className={`absolute ${isMaximized ? 'w-full h-full top-0 left-0' : `${width} ${height}`} bg-white border-2 border-gray-400 shadow-xl z-30 ${isDragging ? 'cursor-move' : ''}`}
+      onClick={handleWindowClick}
+      className={`absolute ${isMaximized ? 'w-full h-full top-0 left-0' : `${width} ${height}`} bg-white border-2 ${isActive ? 'border-blue-500' : 'border-gray-400'} shadow-xl ${zIndex} ${isDragging ? 'cursor-move' : ''}`}
       style={!isMaximized ? { left: `${position.x}px`, top: `${position.y}px` } : {}}
     >
       {/* Title Bar */}
       <div 
-        className={`bg-gradient-to-r from-blue-500 to-blue-700 text-white px-2 py-1 flex items-center justify-between border-b border-gray-400 ${!isMaximized ? 'cursor-move' : ''}`}
+        className={`${isActive ? 'bg-gradient-to-r from-blue-500 to-blue-700' : 'bg-gradient-to-r from-gray-400 to-gray-600'} text-white px-2 py-1 flex items-center justify-between border-b border-gray-400 ${!isMaximized ? 'cursor-move' : ''}`}
         onMouseDown={handleMouseDown}
       >
         <span className="font-bold text-sm">{title}</span>

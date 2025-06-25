@@ -12,7 +12,19 @@ import {
   Battery
 } from 'lucide-react';
 
-const Taskbar = () => {
+interface TaskbarProps {
+  openWindows?: string[];
+  activeWindow?: string | null;
+  onWindowClick?: (windowId: string) => void;
+  onWindowClose?: (windowId: string) => void;
+}
+
+const Taskbar: React.FC<TaskbarProps> = ({ 
+  openWindows = [], 
+  activeWindow = null,
+  onWindowClick, 
+  onWindowClose 
+}) => {
   const [showStartMenu, setShowStartMenu] = useState(false);
   const [currentTime, setCurrentTime] = useState(new Date());
 
@@ -27,6 +39,28 @@ const Taskbar = () => {
       hour: 'numeric', 
       minute: '2-digit' 
     });
+  };
+
+  const getWindowTitle = (windowId: string) => {
+    const titles: { [key: string]: string } = {
+      mycomputer: 'My Computer',
+      mydocuments: 'My Documents',
+      notepad: 'Notepad',
+      mail: 'Outlook Express',
+      recyclebin: 'Recycle Bin',
+    };
+    return titles[windowId] || windowId;
+  };
+
+  const getWindowIcon = (windowId: string) => {
+    const icons: { [key: string]: string } = {
+      mycomputer: '/images/icons/my-computer.png',
+      mydocuments: '/images/icons/my-documents.png',
+      notepad: '/images/icons/notepad.png',
+      mail: '/images/icons/outlook-express.png',
+      recyclebin: '/images/icons/recycle-bin.png',
+    };
+    return icons[windowId] || '/images/icons/default.png';
   };
 
   const startMenuItems = [
@@ -88,15 +122,33 @@ const Taskbar = () => {
           <span>start</span>
         </Button>
 
-        {/* Quick Launch
-        <div className="flex items-center space-x-1 ml-2">
-          <div className="w-6 h-6 bg-blue-800 rounded border border-blue-900 flex items-center justify-center">
-            <Search className="w-4 h-4 text-white" />
-          </div>
-          <div className="w-6 h-6 bg-blue-800 rounded border border-blue-900 flex items-center justify-center">
-            <FileText className="w-4 h-4 text-white" />
-          </div>
-        </div> */}
+        {/* Window Tabs */}
+        <div className="flex-1 flex items-center space-x-1 ml-2 overflow-hidden">
+          {openWindows.map((windowId) => {
+            const isActive = activeWindow === windowId;
+            return (
+              <button
+                key={windowId}
+                onClick={() => onWindowClick?.(windowId)}
+                className={`h-8 px-2 ${
+                  isActive 
+                    ? 'bg-gradient-to-b from-blue-200 to-blue-400' 
+                    : 'bg-gradient-to-b from-blue-700 to-blue-900'
+                } hover:from-blue-300 hover:to-blue-500 border border-blue-600 rounded text-xs font-semibold shadow-md flex items-center space-x-1 max-w-32 truncate`}
+              >
+                <img 
+                  src={getWindowIcon(windowId)} 
+                  alt={getWindowTitle(windowId)}
+                  className="w-4 h-4 object-contain flex-shrink-0"
+                />
+                <span className={`truncate ${isActive ? 'text-white' : 'text-blue-100'}`}>
+                  {getWindowTitle(windowId)}
+                </span>
+                
+              </button>
+            );
+          })}
+        </div>
 
         {/* System Tray */}
         <div className="flex items-center space-x-2">
